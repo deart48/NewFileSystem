@@ -1,0 +1,204 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ReflectionApp.ViewModels"
+        xmlns:models="using:ReflectionApp.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="900"
+        x:Class="ReflectionApp.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Reflection App — FileSystemLibrary Explorer"
+        Width="1100" Height="900"
+        MinWidth="800" MinHeight="600"
+        FontSize="18">
+
+    <ScrollViewer Padding="4">
+        <StackPanel Margin="24" Spacing="16">
+
+ 
+            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="6" Padding="18">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="1. Load Assembly" FontWeight="Bold" FontSize="20"/>
+                    <TextBox Text="{Binding AssemblyPath}"
+                             Watermark="Enter path to .dll file..."
+                             AcceptsReturn="False"
+                             FontSize="18" MinHeight="42"/>
+                    <Button Content="Load Assembly"
+                            Command="{Binding LoadAssemblyCommand}"
+                            HorizontalAlignment="Left"
+                            FontSize="18" Padding="20,10"/>
+                </StackPanel>
+            </Border>
+
+    
+            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="6" Padding="18"
+                    IsVisible="{Binding HasClasses}">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="2. Available Classes" FontWeight="Bold" FontSize="20"/>
+                    <ListBox ItemsSource="{Binding ClassNames}"
+                             SelectedItem="{Binding SelectedClassName}"
+                             MaxHeight="200">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <TextBlock Text="{Binding}" Padding="8,6" FontSize="18"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </Border>
+
+
+            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="6" Padding="18"
+                    IsVisible="{Binding HasConstructorParams}">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="3. Constructor Parameters" FontWeight="Bold" FontSize="20"/>
+                    <ItemsControl ItemsSource="{Binding ConstructorParameters}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:ParameterInputModel">
+                                <Grid ColumnDefinitions="*,*" Margin="0,6">
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal"
+                                                VerticalAlignment="Center" Spacing="8" Margin="0,0,16,0">
+                                        <TextBlock Text="{Binding ParameterName}"
+                                                   FontWeight="SemiBold" FontSize="18"/>
+                                        <TextBlock Text="{Binding TypeName, StringFormat='({0})'}"
+                                                   Foreground="#888888" FontSize="17"/>
+                                    </StackPanel>
+                            
+                                    <TextBox Grid.Column="1"
+                                             Text="{Binding InputValue}"
+                                             Watermark="value..."
+                                             FontSize="18" MinHeight="42"
+                                             IsVisible="{Binding IsSimple}"/>
+    
+                                    <ComboBox Grid.Column="1"
+                                              ItemsSource="{Binding AvailableInstances}"
+                                              SelectedItem="{Binding SelectedInstance}"
+                                              FontSize="18" MinHeight="42"
+                                              HorizontalAlignment="Stretch"
+                                              IsVisible="{Binding IsComplex}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+           
+            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="6" Padding="18"
+                    IsVisible="{Binding HasMethods}">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Instance Name (optional):" FontSize="18"/>
+                    <Grid ColumnDefinitions="*,Auto" HorizontalAlignment="Stretch">
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding NewInstanceName}"
+                                 Watermark="leave empty for auto-name"
+                                 FontSize="18" MinHeight="42"
+                                 Margin="0,0,12,0"/>
+                        <Button Grid.Column="1"
+                                Content="Create Instance"
+                                Command="{Binding CreateInstanceCommand}"
+                                FontSize="18" Padding="20,10"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+
+            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="6" Padding="18"
+                    IsVisible="{Binding HasInstances}">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Created Instances (click to make active)"
+                               FontWeight="Bold" FontSize="20"/>
+                    <ListBox ItemsSource="{Binding InstanceNames}"
+                             MaxHeight="160">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Button Content="{Binding}"
+                                        Command="{Binding $parent[Window].DataContext.SelectInstanceCommand}"
+                                        CommandParameter="{Binding}"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Left"
+                                        Background="Transparent"
+                                        FontSize="17"
+                                        Padding="6,4"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </Border>
+
+            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="6" Padding="18"
+                    IsVisible="{Binding HasMethods}">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="4. Methods" FontWeight="Bold" FontSize="20"/>
+                    <ListBox ItemsSource="{Binding MethodNames}"
+                             SelectedItem="{Binding SelectedMethodName}"
+                             MaxHeight="200">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <TextBlock Text="{Binding}" Padding="8,6" FontSize="18"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </Border>
+
+
+            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="6" Padding="18"
+                    IsVisible="{Binding HasMethodParams}">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="5. Method Parameters" FontWeight="Bold" FontSize="20"/>
+                    <ItemsControl ItemsSource="{Binding MethodParameters}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:ParameterInputModel">
+                                <Grid ColumnDefinitions="*,*" Margin="0,6">
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal"
+                                                VerticalAlignment="Center" Spacing="8" Margin="0,0,16,0">
+                                        <TextBlock Text="{Binding ParameterName}"
+                                                   FontWeight="SemiBold" FontSize="18"/>
+                                        <TextBlock Text="{Binding TypeName, StringFormat='({0})'}"
+                                                   Foreground="#888888" FontSize="17"/>
+                                    </StackPanel>
+                                    <TextBox Grid.Column="1"
+                                             Text="{Binding InputValue}"
+                                             Watermark="value..."
+                                             FontSize="18" MinHeight="42"
+                                             IsVisible="{Binding IsSimple}"/>
+                                    <ComboBox Grid.Column="1"
+                                              ItemsSource="{Binding AvailableInstances}"
+                                              SelectedItem="{Binding SelectedInstance}"
+                                              FontSize="18" MinHeight="42"
+                                              HorizontalAlignment="Stretch"
+                                              IsVisible="{Binding IsComplex}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <Button Content="Execute Method"
+                    Command="{Binding ExecuteMethodCommand}"
+                    IsVisible="{Binding HasMethods}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    FontSize="19" Padding="0,12"/>
+
+        
+            <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="6" Padding="18">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Result / Status:" FontWeight="Bold" FontSize="20"/>
+                    <TextBlock Text="{Binding StatusMessage}"
+                               TextWrapping="Wrap"
+                               FontFamily="Consolas,Monospace"
+                               FontSize="18"
+                               Foreground="#1565C0"
+                               MinHeight="52"
+                               Padding="4"/>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</Window>

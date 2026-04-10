@@ -1,0 +1,11 @@
+/home/deart/vuz/it/test/FileSystemLibrary/bin/Debug/net8.0/FileSystemLibrary.deps.json
+/home/deart/vuz/it/test/FileSystemLibrary/bin/Debug/net8.0/FileSystemLibrary.dll
+/home/deart/vuz/it/test/FileSystemLibrary/bin/Debug/net8.0/FileSystemLibrary.pdb
+/home/deart/vuz/it/test/FileSystemLibrary/obj/Debug/net8.0/FileSystemLibrary.GeneratedMSBuildEditorConfig.editorconfig
+/home/deart/vuz/it/test/FileSystemLibrary/obj/Debug/net8.0/FileSystemLibrary.AssemblyInfoInputs.cache
+/home/deart/vuz/it/test/FileSystemLibrary/obj/Debug/net8.0/FileSystemLibrary.AssemblyInfo.cs
+/home/deart/vuz/it/test/FileSystemLibrary/obj/Debug/net8.0/FileSystemLibrary.csproj.CoreCompileInputs.cache
+/home/deart/vuz/it/test/FileSystemLibrary/obj/Debug/net8.0/FileSystemLibrary.dll
+/home/deart/vuz/it/test/FileSystemLibrary/obj/Debug/net8.0/refint/FileSystemLibrary.dll
+/home/deart/vuz/it/test/FileSystemLibrary/obj/Debug/net8.0/FileSystemLibrary.pdb
+/home/deart/vuz/it/test/FileSystemLibrary/obj/Debug/net8.0/ref/FileSystemLibrary.dll
